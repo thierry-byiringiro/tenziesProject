@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Die from "./Die";
-import { nanoid } from "nanoid";
-
+import ReactConfetti from "react-confetti";
 export default function Main() {
   const generateAllNewDice = () => {
     let newArr = [];
@@ -14,7 +13,7 @@ export default function Main() {
     }
     return newArr;
   };
-  const [newDice, setNewDice] = useState(generateAllNewDice());
+  const [newDice, setNewDice] = useState(() => generateAllNewDice());
   let gameWon =
     newDice.every((die) => die.isHeld) &&
     newDice.every((die) => die.value === newDice[0].value);
@@ -24,6 +23,9 @@ export default function Main() {
         el.id == id ? { ...el, isHeld: !el.isHeld } : el,
       );
     });
+  };
+  const resetRoll = () => {
+    setNewDice(generateAllNewDice());
   };
   const handleRandom = () => {
     setNewDice((oldDice) =>
@@ -37,6 +39,7 @@ export default function Main() {
   return (
     <>
       <main className="w-90 h-94.75 top-17 left-19 bg-[#0B2434] flex  items-center justify-center">
+        {gameWon && <ReactConfetti />}
         <div className="w-[320px] h-80 bg-[#f5f5f5]   rounded-[10px] grid  grid-cols-5 gap-y-10 pt-25 place-items-center content-start">
           {/* <h1 className="">Tenzies</h1>
           <p className="">
@@ -52,12 +55,21 @@ export default function Main() {
               index={element.id}
             />
           ))}
-          <button
-            onClick={handleRandom}
-            className="w-23 h-9 bg-[#5035FF] rounded-md text-white flex justify-center items-center font-bold ml-60 cursor-pointer"
-          >
-            {gameWon ? "New Game" : "Roll"}
-          </button>
+          {gameWon ? (
+            <button
+              onClick={resetRoll}
+              className="w-23 h-9 bg-[#5035FF] rounded-md text-white flex justify-center items-center font-bold ml-60 cursor-pointer"
+            >
+              New Game
+            </button>
+          ) : (
+            <button
+              onClick={handleRandom}
+              className="w-23 h-9 bg-[#5035FF] rounded-md text-white flex justify-center items-center font-bold ml-60 cursor-pointer"
+            >
+              Roll Dice
+            </button>
+          )}
         </div>
       </main>
     </>

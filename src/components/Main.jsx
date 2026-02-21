@@ -9,7 +9,7 @@ export default function Main() {
       newArr.push({
         value: Math.ceil(Math.random() * 6),
         isHeld: false,
-        id: nanoid(),
+        id: i,
       });
     }
     return newArr;
@@ -17,11 +17,19 @@ export default function Main() {
   const [newDice, setNewDice] = useState(generateAllNewDice());
   const hold = (id) => {
     setNewDice((prevDice) => {
-     return  prevDice.map((el) => el.id == id ? {...el,isHeld: !el.isHeld} :el)
-    })
+      return prevDice.map((el) =>
+        el.id == id ? { ...el, isHeld: !el.isHeld } : el,
+      );
+    });
   };
   const handleRandom = () => {
-    setNewDice(generateAllNewDice());
+    setNewDice((oldDice) =>
+      oldDice.map((el) =>
+        el.isHeld === true
+          ? el
+          : { ...el, value: Math.ceil(Math.random() * 6) },
+      ),
+    );
   };
   return (
     <>

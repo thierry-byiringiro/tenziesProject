@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Die from "./Die";
 import ReactConfetti from "react-confetti";
 export default function Main() {
@@ -36,6 +36,12 @@ export default function Main() {
       ),
     );
   };
+  const gameIsWon = useRef(null);
+  useEffect(()=>{
+    if(gameWon && gameIsWon !== null){
+      gameIsWon.current.focus();
+    }
+  },[gameWon])
   return (
     <>
       <main className="w-90 h-94.75 top-17 left-19 bg-[#0B2434] flex  items-center justify-center">
@@ -58,6 +64,7 @@ export default function Main() {
           {gameWon ? (
             <button
               onClick={resetRoll}
+              ref={gameIsWon}
               className="w-23 h-9 bg-[#5035FF] rounded-md text-white flex justify-center items-center font-bold ml-60 cursor-pointer"
             >
               New Game

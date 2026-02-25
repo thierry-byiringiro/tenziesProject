@@ -47,11 +47,6 @@ export default function Main() {
       <main className="w-90 h-94.75 top-17 left-19 bg-[#0B2434] flex  items-center justify-center">
         {gameWon && <ReactConfetti />}
         <div className="w-[320px] h-80 bg-[#f5f5f5]   rounded-[10px] grid  grid-cols-5 gap-y-10 pt-25 place-items-center content-start">
-          {/* <h1 className="">Tenzies</h1>
-          <p className="">
-            Roll until all dice are the same. Click each die to freeze it at its
-            current value between rolls.
-          </p> */}
           {newDice.map((element, index) => (
             <Die
               key={element.id}
